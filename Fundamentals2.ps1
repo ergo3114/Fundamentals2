@@ -1,8 +1,8 @@
 return "Do not run this as is. This is for testing purposes only."
 
-############
-# Prestage #
-############
+#############
+# Pre-stage #
+#############
 
 Remove-Item "C:\Temp\Fundamentals2\" -ErrorAction SilentlyContinue
 Stop-Service BITS -ErrorAction SilentlyContinue
@@ -94,3 +94,59 @@ Get-NetFirewallRule | Select-Object -First 1
 
 # ipconfig equivelant
 Get-NetIPAddress
+
+#####################
+# Common Parameters #
+#####################
+
+# Debug
+# ErrorAction
+# ErrorVariable
+# InformationAction
+# InformationVariable
+# OutVariable
+# OutBuffer
+# PipelineVariable
+# Verbose
+# WarningAction
+# WarningVariable
+# WhatIf
+# Confirm
+
+Clear-Host
+
+# Pre-stage for example
+Get-Process -Name notepad -ErrorAction 'SilentlyContinue' | Stop-Process
+
+# Returns error when no NotePad
+Get-Process -Name notepad
+
+# Save the error to a variable
+Get-Process -Name notepad -ErrorVariable 'noNotepad' -ErrorAction 'SilentlyContinue'
+$noNotepad
+
+Clear-Host
+
+# WhatIf
+Remove-Item -Path "C:\temp\Fundamentals2\HelloWorld.txt" -WhatIf
+
+####################
+# Logic Statements #
+####################
+
+# Foreach
+
+$Services = 'Fax', 'BITS', 'Spooler'
+foreach($service in $Services){
+    Get-Service $service
+}
+
+# If
+
+$service = Get-Service 'BITS'
+if($service.Status -eq 'Stopped'){
+    Start-Service $service
+} else {
+    Stop-Service $service
+}
+Get-Service 'BITS'
